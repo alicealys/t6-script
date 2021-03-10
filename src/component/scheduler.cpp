@@ -4,7 +4,7 @@ namespace scheduler
 {
 	namespace
 	{
-		int glass_update;
+		int spawn_system_update;
 
 		std::queue<std::function<void()>> tasks;
 
@@ -36,17 +36,10 @@ namespace scheduler
 			}
 		}
 
-		__declspec(naked) void server_frame()
+		void server_frame()
 		{
-			__asm
-			{
-				pushad
-				call execute
-				popad
-
-				push glass_update
-				retn
-			}
+			execute();
+			reinterpret_cast<void (*)()>(SELECT(0x43D2F0, 0x481C30))();
 		}
 	}
 
@@ -80,7 +73,6 @@ namespace scheduler
 
 	void init()
 	{
-		glass_update = SELECT(0x49E910, 0x5001A0);
-		utils::hook::jump(SELECT(0x4A59F7, 0x6AA2F7), server_frame);
+		utils::hook::call(SELECT(0x4A597E, 0x6AA27E), server_frame);
 	}
 }

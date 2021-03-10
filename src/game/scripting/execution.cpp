@@ -49,6 +49,8 @@ namespace scripting
 
 	void notify(const entity& entity, const std::string& event, const std::vector<script_value>& arguments)
 	{
+		stack_isolation _;
+
 		for (auto i = arguments.rbegin(); i != arguments.rend(); ++i)
 		{
 			push_value(*i);
@@ -104,6 +106,8 @@ namespace scripting
 
 		if (id != -1)
 		{
+			stack_isolation _;
+
 			push_value(value);
 
 			game::scr_VmPub->outparamcount = game::scr_VmPub->inparamcount;
