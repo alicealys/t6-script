@@ -63,6 +63,24 @@ namespace scripting
 			return g_shutdown_game_hook.invoke<void>(free_scripts);
 		}
 
+		game::BuiltinMethodDef get_method(const std::string& name)
+		{
+			game::BuiltinMethodDef method{};
+
+			auto pName = name.data();
+			int arg = 0;
+
+			const auto func = game::Scr_GetMethod(&pName, &arg, &arg, &arg);
+		
+			if (func)
+			{
+				method.actionFunc = reinterpret_cast<script_function>(func);
+				method.actionString = name.data();
+			}
+
+			return method;
+		}
+
 		void load_functions()
 		{
 			for (auto i = 0; i < 278; i++)
@@ -125,11 +143,7 @@ namespace scripting
 				function_map[function.actionString] = function;
 			}
 
-			game::BuiltinMethodDef notify_on_player_command;
-			notify_on_player_command.actionFunc = reinterpret_cast<script_function>(0x2077E980);
-			notify_on_player_command.actionString = "notifyonplayercommand";
-
-			method_map["notifyonplayercommand"] = notify_on_player_command;
+			method_map["notifyonplayercommand"] = get_method("notifyonplayercommand");
 		}
 	}
 

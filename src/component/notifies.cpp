@@ -104,5 +104,7 @@ namespace notifies
 		utils::hook::jump(SELECT(0x6A7AAE, 0x493E5E), pre_say_stub);
 		utils::hook::call(SELECT(0x6A7B5F, 0x493F0F), post_say_stub);
 		utils::hook::call(SELECT(0x6A7B9B, 0x493F4B), post_say_stub);
+
+		//utils::hook::nop(SELECT(0x45A32B, 0), 7);
 	}
 }
