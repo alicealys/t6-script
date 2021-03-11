@@ -4,8 +4,6 @@ namespace scheduler
 {
 	namespace
 	{
-		int spawn_system_update;
-
 		std::queue<std::function<void()>> tasks;
 
 		struct task
