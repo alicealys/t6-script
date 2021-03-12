@@ -28,7 +28,7 @@ namespace game
 	{
 		scr_entref_t entref;
 
-		const auto v2 = &game::scr_varGlob[0].objectVariableValue[entId];
+		const auto v2 = &game::scr_VarGlob[0].objectVariableValue[entId];
 		
 		entref.entnum = v2->entnum;
 		entref.classnum = v2->classnum >> 8;

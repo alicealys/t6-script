@@ -45,6 +45,11 @@ namespace scripting::lua
 			vector_type["g"] = sol::property(&vector::get_y, &vector::set_y);
 			vector_type["b"] = sol::property(&vector::get_z, &vector::set_z);
 
+			state["v"] = [](const sol::this_state s, float x, float y, float z)
+			{
+				return convert(s, vector(x, y, z));
+			};
+
 			auto entity_type = state.new_usertype<entity>("entity");
 
 			for (const auto& func : method_map)

@@ -48,7 +48,8 @@ namespace game
 		SCRIPT_VECTOR = 4,
 		SCRIPT_FLOAT = 6,
 		SCRIPT_INTEGER = 7,
-		SCRIPT_END = 9
+		SCRIPT_END = 9,
+		SCRIPT_ARRAY = 21
 	};
 
 	struct VariableStackBuffer
@@ -125,8 +126,8 @@ namespace game
 
 	struct ObjectVariableChildren
 	{
-		unsigned __int16 firstChild;
-		unsigned __int16 lastChild;
+		unsigned int firstChild;
+		unsigned int lastChild;
 	};
 
 	struct ChildVariableValue_u_f
@@ -137,7 +138,6 @@ namespace game
 
 	union ChildVariableValue_u
 	{
-		ChildVariableValue_u_f f;
 		VariableUnion u;
 	};
 
@@ -156,12 +156,14 @@ namespace game
 	struct ChildVariableValue
 	{
 		ChildVariableValue_u u;
-		unsigned __int16 next;
+		unsigned int next;
+		char pad[4];
 		char type;
 		char name_lo;
+		char _pad[2];
 		ChildBucketMatchKeys k;
-		unsigned __int16 nextSibling;
-		unsigned __int16 prevSibling;
+		unsigned int nextSibling;
+		unsigned int prevSibling;
 	};
 
 	struct scrVarGlob_t
