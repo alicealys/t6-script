@@ -20,7 +20,7 @@ namespace scripting
 		utils::hook::detour g_shutdown_game_hook;
 
 		void vm_notify_stub(game::scriptInstance_t inst, const unsigned int notify_list_owner_id, const unsigned int string_value,
-			                game::VariableValue* top)
+			game::VariableValue* top)
 		{
 			const auto* name = game::SL_ConvertToString(string_value);
 
