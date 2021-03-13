@@ -36,7 +36,7 @@ namespace game
 	WEAK symbol<void(scriptInstance_t inst, VariableValue* value)> RemoveRefToValue{0x55E820, 0x42E7D0};
 
 	WEAK symbol<unsigned int(scriptInstance_t inst, int entnum, unsigned int classnum, int clientNum)> FindEntityId{0x702D80, 0x0};
-	WEAK symbol<unsigned int(scriptInstance_t inst, unsigned int parentId, unsigned int name)> FindVariable{0x06EB1B0, 0x0};
+	WEAK symbol<unsigned int(scriptInstance_t inst, unsigned int parentId, unsigned int name)> FindVariable{0x6EB1B0, 0x0};
 
 	WEAK symbol<void(unsigned int classnum, int entnum, int offset)> Scr_SetObjectField{0x5B9820, 0x43F2A0};
 	WEAK symbol<VariableValue(scriptInstance_t inst, unsigned int classnum, int entnum, int clientNum, int offset)> GetEntityFieldValue{0x693130, 0x6DD0E0};

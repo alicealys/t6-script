@@ -38,9 +38,9 @@ namespace scripting
 
 		int get_field_id(const int classnum, const std::string& field)
 		{
-			if (scripting::fields_table.find(field) != scripting::fields_table.end())
+			if (scripting::fields_table[classnum].find(field) != scripting::fields_table[classnum].end())
 			{
-				return scripting::fields_table[field];
+				return scripting::fields_table[classnum][field];
 			}
 
 			return -1;

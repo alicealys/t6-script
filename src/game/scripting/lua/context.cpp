@@ -18,9 +18,12 @@ namespace scripting::lua
 		{
 			std::vector<std::string> constants{};
 
-			for (const auto& constant : fields_table)
+			for (const auto& class_ : fields_table)
 			{
-				constants.push_back(constant.first);
+				for (const auto& constant : class_.second)
+				{
+					constants.push_back(constant.first);
+				}
 			}
 
 			return constants;

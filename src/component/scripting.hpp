@@ -2,7 +2,7 @@
 
 namespace scripting
 {
-	extern std::unordered_map<std::string, int> fields_table;
+	extern std::unordered_map<int, std::unordered_map<std::string, int>> fields_table;
 
 	extern std::unordered_map<std::string, game::BuiltinMethodDef> method_map;
 	extern std::unordered_map<std::string, game::BuiltinFunctionDef> function_map;

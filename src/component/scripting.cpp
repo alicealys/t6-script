@@ -6,7 +6,7 @@
 
 namespace scripting
 {
-	std::unordered_map<std::string, int> fields_table;
+	std::unordered_map<int, std::unordered_map<std::string, int>> fields_table;
 
 	std::unordered_map<std::string, game::BuiltinMethodDef> method_map;
 	std::unordered_map<std::string, game::BuiltinFunctionDef> function_map;
@@ -20,7 +20,7 @@ namespace scripting
 		utils::hook::detour g_shutdown_game_hook;
 
 		void vm_notify_stub(game::scriptInstance_t inst, const unsigned int notify_list_owner_id, const unsigned int string_value,
-			game::VariableValue* top)
+			                game::VariableValue* top)
 		{
 			const auto* name = game::SL_ConvertToString(string_value);
 
@@ -43,9 +43,9 @@ namespace scripting
 
 		void scr_add_class_field_stub(game::scriptInstance_t inst, unsigned int classnum, char const* name, unsigned int offset)
 		{
-			if (fields_table.find(name) == fields_table.end())
+			if (fields_table[classnum].find(name) == fields_table[classnum].end())
 			{
-				fields_table[name] = offset;
+				fields_table[classnum][name] = offset;
 			}
 
 			scr_add_class_field_hook.invoke<void>(inst, classnum, name, offset);
