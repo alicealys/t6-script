@@ -4,4 +4,5 @@ Lua scripting support for Plutonium T6
 
 Works the same as it does in [IW6x](https://github.com/XLabsProject/iw6x-client/wiki/Scripting)
 
-Scripts go in `t6r/data/scripts/`
+Scripts go in `Plutonium/storage/t6/scripts/`  
+For more information see [iw5-script](https://github.com/fedddddd/iw5-script)
