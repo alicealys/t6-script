@@ -54,6 +54,7 @@ namespace scripting
 	void variable_value::assign(const game::VariableValue& value)
 	{
 		this->value_ = value;
+		game::AddRefToValue(game::SCRIPTINSTANCE_SERVER, &this->value_);
 	}
 
 	void variable_value::release()

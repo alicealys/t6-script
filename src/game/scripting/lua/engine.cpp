@@ -14,9 +14,22 @@ namespace scripting::lua::engine
 			return scripts;
 		}
 
-		void load_scripts()
+		std::string load_path()
 		{
-			const auto script_dir = "t6r/data/scripts/"s;
+			const auto fs_basegame = game::Dvar_FindVar("fs_homepath");
+			return fs_basegame->current.string;
+		}
+
+		std::string get_path()
+		{
+			static const auto path = load_path();
+			return path;
+		}
+
+		void load_scripts(const std::string& script_dir)
+		{
+			const auto path = get_path();
+			std::filesystem::current_path(path);
 
 			if (!utils::io::directory_exists(script_dir))
 			{
@@ -38,7 +51,7 @@ namespace scripting::lua::engine
 	void start()
 	{
 		get_scripts().clear();
-		load_scripts();
+		load_scripts("scripts/");
 	}
 
 	void stop()
@@ -48,12 +61,6 @@ namespace scripting::lua::engine
 
 	void notify(const event& e)
 	{
-		if (e.entity.get_entity_id() == *game::levelEntityId
-			&& e.name == "exitLevel_called")
-		{
-			get_scripts().clear();
-		}
-
 		for (auto& script : get_scripts())
 		{
 			script->notify(e);

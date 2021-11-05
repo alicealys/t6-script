@@ -19,10 +19,16 @@
 #include <queue>
 #include <unordered_set>
 #include <filesystem>
+#include <map>
+#include <csetjmp>
+#include <atlcomcli.h>
+#include <optional>
+#include <future>
 
 using namespace std::literals;
 
 #include <MinHook.h>
+#include <gsl/gsl>
 
 #include "utils/memory.hpp"
 #include "utils/string.hpp"

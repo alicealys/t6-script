@@ -85,7 +85,11 @@ namespace scripting
 	{
 		if (this->entity_id_)
 		{
-			//++game::scr_VarGlob->objectVariableValue[this->get_entity_id()].prev;
+			game::VariableValue value;
+			value.type = game::SCRIPT_OBJECT;
+			value.u.uintValue = this->entity_id_;
+
+			game::AddRefToValue(game::SCRIPTINSTANCE_SERVER, &value);
 		}
 	}
 
@@ -94,7 +98,7 @@ namespace scripting
 		if (this->entity_id_)
 		{
 			game::VariableValue value;
-			value.type = 1;
+			value.type = game::SCRIPT_OBJECT;
 			value.u.uintValue = this->entity_id_;
 
 			game::RemoveRefToValue(game::SCRIPTINSTANCE_SERVER, &value);

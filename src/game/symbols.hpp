@@ -32,11 +32,11 @@ namespace game
 
 	WEAK symbol<unsigned int(scriptInstance_t inst)> AllocObject{0x6FB1B0, 0x6FE9D0};
 	WEAK symbol<void(scriptInstance_t inst, unsigned int id)> RemoveRefToObject{0x6FB1B0, 0x550DC0};
-	WEAK symbol<void(scriptInstance_t inst, const float* vectorValue)> RemoveRefToVector{0x50C580, 0x0};
+	WEAK symbol<void(scriptInstance_t inst, const float* vectorValue)> RemoveRefToVector{0x50C580, 0x432600};
+	WEAK symbol<void(scriptInstance_t inst, VariableValue* value)> AddRefToValue{0x488FA0, 0x4E5060};
 	WEAK symbol<void(scriptInstance_t inst, VariableValue* value)> RemoveRefToValue{0x55E820, 0x42E7D0};
 
-	WEAK symbol<unsigned int(scriptInstance_t inst, int entnum, unsigned int classnum, int clientNum)> FindEntityId{0x702D80, 0x0};
-	WEAK symbol<unsigned int(scriptInstance_t inst, unsigned int parentId, unsigned int name)> FindVariable{0x6EB1B0, 0x0};
+	WEAK symbol<unsigned int(scriptInstance_t inst, unsigned int parentId, unsigned int id)> FindVariable{0x6EB1B0, 0x5FE180};
 
 	WEAK symbol<void(unsigned int classnum, int entnum, int offset)> Scr_SetObjectField{0x5B9820, 0x43F2A0};
 	WEAK symbol<VariableValue(scriptInstance_t inst, unsigned int classnum, int entnum, int clientNum, int offset)> GetEntityFieldValue{0x693130, 0x6DD0E0};
@@ -58,7 +58,13 @@ namespace game
 
 	WEAK symbol<void(int clientNum, int type, const char* command)> SV_GameSendServerCommand{0x45D7D0, 0x40D450};
 
+	WEAK symbol<void*(jmp_buf* Buf, int Value)> longjmp{0xA78870, 0xA71AD0};
+	WEAK symbol<int(jmp_buf* Buf)> _setjmp{0xA77B10, 0xA70D70};
+
 	// Variables
+
+	WEAK symbol<int> g_script_error_level{0x2E23BC8, 0x2DF3EC8};
+	WEAK symbol<jmp_buf> g_script_error{0x2E22B48, 0x2DF2E48};
 
 	WEAK symbol<scrVmPub_t> scr_VmPub{0x2E1A5D0, 0x2DEA8D0};
 	WEAK symbol<scrVarGlob_t> scr_VarGlob{0x2E1A100, 0x2DEA400};

@@ -2,7 +2,6 @@
 #include "script_value.hpp"
 #include "entity.hpp"
 
-
 namespace scripting
 {
 	/***************************************************************
@@ -57,6 +56,11 @@ namespace scripting
 		variable.type = game::SCRIPT_STRING;
 		variable.u.stringValue = game::SL_GetString(value, 0);
 
+		const auto _ = gsl::finally([&variable]()
+		{
+			game::RemoveRefToValue(game::SCRIPTINSTANCE_SERVER, &variable);
+		});
+
 		this->value_ = variable;
 	}
 
@@ -78,8 +82,12 @@ namespace scripting
 	{
 		game::VariableValue variable{};
 		variable.type = game::SCRIPT_VECTOR;
-
 		variable.u.vectorValue = game::Scr_AllocVector(game::SCRIPTINSTANCE_SERVER, value);
+
+		const auto _ = gsl::finally([&variable]()
+		{
+			game::RemoveRefToValue(game::SCRIPTINSTANCE_SERVER, &variable);
+		});
 
 		this->value_ = variable;
 	}
@@ -194,24 +202,6 @@ namespace scripting
 	entity script_value::get() const
 	{
 		return entity(this->get_raw().u.pointerValue);
-	}
-
-	/***************************************************************
-	 * Array
-	 **************************************************************/
-
-	template <>
-	bool script_value::is<std::vector<script_value>>() const
-	{
-		if (this->get_raw().type != game::SCRIPT_OBJECT)
-		{
-			return false;
-		}
-
-		const auto id = this->get_raw().u.uintValue;
-		const auto type = game::scr_VarGlob->objectVariableValue[id].classnum & 0x7F;
-
-		return type == game::SCRIPT_ARRAY;
 	}
 
 	/***************************************************************

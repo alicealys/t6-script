@@ -8,8 +8,6 @@
 
 #include <utils/string.hpp>
 
-namespace _game = game;
-
 namespace scripting::lua
 {
 	namespace
@@ -147,9 +145,8 @@ namespace scripting::lua
 
 			entity_type["tell"] = [](const entity& entity, const sol::this_state s, const std::string& message)
 			{
-				const auto clientNum = entity.call("getEntityNumber").as<int>();
-
-				_game::SV_GameSendServerCommand(clientNum, 0, utils::string::va("j \"%s\"", message.data()));
+				const auto client = entity.call("getentitynumber").as<int>();
+				::game::SV_GameSendServerCommand(client, 0, utils::string::va("j \"%s\"", message.data()));
 			};
 
 			struct game
@@ -201,17 +198,17 @@ namespace scripting::lua
 
 			game_type["executecommand"] = [](const game&, const std::string& command)
 			{
-				_game::Cbuf_AddText(0, command.data());
+				::game::Cbuf_AddText(0, command.data());
 			};
 
 			game_type["say"] = [](const game&, const std::string& message)
 			{
-				_game::SV_GameSendServerCommand(-1, 0, utils::string::va("j \"%s\"", message.data()));
+				::game::SV_GameSendServerCommand(-1, 0, utils::string::va("j \"%s\"", message.data()));
 			};
 
 			game_type["gamesendservercommand"] = [](const game&, const std::string& cmd)
 			{
-				_game::SV_GameSendServerCommand(-1, 0, cmd.data());
+				::game::SV_GameSendServerCommand(-1, 0, cmd.data());
 			};
 		}
 	}
