@@ -1,6 +1,6 @@
-#include <stdinc.hpp>
+#pragma once
 
 namespace notifies
 {
-	void init();
+
 }

@@ -1,4 +1,4 @@
-#include <stdinc.hpp>
+#pragma once
 
 namespace scripting
 {
@@ -6,8 +6,6 @@ namespace scripting
 
 	extern std::unordered_map<std::string, game::BuiltinMethodDef> method_map;
 	extern std::unordered_map<std::string, game::BuiltinFunctionDef> function_map;
-
-	void init();
 
 	using script_function = void(*)(game::scr_entref_t);
 

@@ -1,5 +1,9 @@
 #pragma once
 
+#include "structs.hpp"
+
+#define SELECT(mp, zm) (game::environment::t6mp() ? mp : zm)
+
 namespace game
 {
 	enum gamemode

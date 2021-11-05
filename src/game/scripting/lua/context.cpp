@@ -267,6 +267,7 @@ namespace scripting::lua
 	void context::notify(const event& e)
 	{
 		this->event_handler_.dispatch(e);
+		this->scheduler_.dispatch(e);
 	}
 
 	void context::load_script(const std::string& script)

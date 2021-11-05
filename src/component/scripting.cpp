@@ -1,8 +1,17 @@
 #include <stdinc.hpp>
+#include "loader/component_loader.hpp"
+
+#include "game/game.hpp"
 
 #include "game/scripting/event.hpp"
 #include "game/scripting/execution.hpp"
 #include "game/scripting/lua/engine.hpp"
+
+#include "scripting.hpp"
+#include "scheduler.hpp"
+
+#include <utils/hook.hpp>
+#include <utils/string.hpp>
 
 namespace scripting
 {
@@ -166,19 +175,25 @@ namespace scripting
 		return nullptr;
 	}
 
-	void init()
+	class component final : public component_interface
 	{
-		scr_load_level_hook.create(SELECT(0x58C920, 0x4EF790), scr_load_level_stub);
-		g_shutdown_game_hook.create(SELECT(0x60DCF0, 0x688A40), g_shutdown_game_stub);
-
-		scr_add_class_field_hook.create(SELECT(0x6B7620, 0x438AD0), scr_add_class_field_stub);
-		vm_notify_hook.create(SELECT(0x8F48C0, 0x8F3620), vm_notify_stub);
-
-		scheduler::loop([]()
+	public:
+		void post_unpack() override
 		{
-			lua::engine::run_frame();
-		});
+			scr_load_level_hook.create(SELECT(0x58C920, 0x4EF790), scr_load_level_stub);
+			g_shutdown_game_hook.create(SELECT(0x60DCF0, 0x688A40), g_shutdown_game_stub);
 
-		load_functions();
-	}
+			scr_add_class_field_hook.create(SELECT(0x6B7620, 0x438AD0), scr_add_class_field_stub);
+			vm_notify_hook.create(SELECT(0x8F48C0, 0x8F3620), vm_notify_stub);
+
+			scheduler::loop([]()
+			{
+				lua::engine::run_frame();
+			});
+
+			load_functions();
+		}
+	};
 }
+
+REGISTER_COMPONENT(scripting::component)

@@ -29,18 +29,3 @@ using namespace std::literals;
 
 #include <MinHook.h>
 #include <gsl/gsl>
-
-#include "utils/memory.hpp"
-#include "utils/string.hpp"
-#include "utils/hook.hpp"
-#include "utils/concurrent_list.hpp"
-#include "utils/io.hpp"
-
-#include "game/structs.hpp"
-#include "game/game.hpp"
-
-#include "component/scheduler.hpp"
-#include "component/scripting.hpp"
-#include "component/notifies.hpp"
-
-#define SELECT(mp, zm) (game::environment::t6mp() ? mp : zm)

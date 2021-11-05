@@ -1,8 +1,11 @@
 #include <stdinc.hpp>
+#include "game.hpp"
 
 namespace game
 {
-	gamemode current = gamemode::none;
+	gamemode current = reinterpret_cast<const char*>(0xC2F028) == "multiplayer"s
+		? gamemode::multiplayer
+		: gamemode::zombies;
 
 	namespace environment
 	{
@@ -15,13 +18,6 @@ namespace game
 		{
 			return current == gamemode::zombies;
 		}
-	}
-
-	void init()
-	{
-		current = reinterpret_cast<const char*>(0xC2F028) == "multiplayer"s
-			? gamemode::multiplayer 
-			: gamemode::zombies;
 	}
 
 	scr_entref_t Scr_GetEntityIdRef(unsigned int entId)
