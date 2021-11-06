@@ -4,7 +4,9 @@
 #include "value_conversion.hpp"
 
 #include "../execution.hpp"
-#include "component/scripting.hpp"
+#include "../array.hpp"
+
+#include "../../../component/scripting.hpp"
 
 #include <utils/string.hpp>
 
@@ -49,6 +51,128 @@ namespace scripting::lua
 			state["v"] = [](const sol::this_state s, float x, float y, float z)
 			{
 				return convert(s, vector(x, y, z));
+			};
+
+			auto array_type = state.new_usertype<array>("array", sol::constructors<array()>());
+
+			array_type["erase"] = [](const array& array, const sol::this_state s,
+				const sol::lua_value& key)
+			{
+				if (key.is<int>())
+				{
+					const auto index = key.as<int>() - 1;
+					array.erase(index);
+				}
+				else if (key.is<std::string>())
+				{
+					const auto _key = key.as<std::string>();
+					array.erase(_key);
+				}
+			};
+
+			array_type["push"] = [](const array& array, const sol::this_state s,
+				const sol::lua_value& value)
+			{
+				const auto _value = convert(value);
+				array.push(_value);
+			};
+
+			array_type["pop"] = [](const array& array, const sol::this_state s)
+			{
+				return convert(s, array.pop());
+			};
+
+			array_type["get"] = [](const array& array, const sol::this_state s,
+				const sol::lua_value& key)
+			{
+				if (key.is<int>())
+				{
+					const auto index = key.as<int>() - 1;
+					return convert(s, array.get(index));
+				}
+				else if (key.is<std::string>())
+				{
+					const auto _key = key.as<std::string>();
+					return convert(s, array.get(_key));
+				}
+
+				return sol::lua_value{s, sol::lua_nil};
+			};
+
+			array_type["set"] = [](const array& array, const sol::this_state s,
+				const sol::lua_value& key, const sol::lua_value& value)
+			{
+				const auto _value = convert(value);
+				const auto nil = _value.get_raw().type == 0;
+
+				if (key.is<int>())
+				{
+					const auto index = key.as<int>() - 1;
+					nil ? array.erase(index) : array.set(index, _value);
+				}
+				else if (key.is<std::string>())
+				{
+					const auto _key = key.as<std::string>();
+					nil ? array.erase(_key) : array.set(_key, _value);
+				}
+			};
+
+			array_type["size"] = [](const array& array, const sol::this_state s)
+			{
+				return array.size();
+			};
+
+			array_type[sol::meta_function::length] = [](const array& array, const sol::this_state s)
+			{
+				return array.size();
+			};
+
+			array_type[sol::meta_function::index] = [](const array& array, const sol::this_state s,
+				const sol::lua_value& key)
+			{
+				if (key.is<int>())
+				{
+					const auto index = key.as<int>() - 1;
+					return convert(s, array.get(index));
+				}
+				else if (key.is<std::string>())
+				{
+					const auto _key = key.as<std::string>();
+					return convert(s, array.get(_key));
+				}
+
+				return sol::lua_value{s, sol::lua_nil};
+			};
+
+			array_type[sol::meta_function::new_index] = [](const array& array, const sol::this_state s,
+				const sol::lua_value& key, const sol::lua_value& value)
+			{
+				const auto _value = convert(value);
+				const auto nil = _value.get_raw().type == 0;
+
+				if (key.is<int>())
+				{
+					const auto index = key.as<int>() - 1;
+					nil ? array.erase(index) : array.set(index, _value);
+				}
+				else if (key.is<std::string>())
+				{
+					const auto _key = key.as<std::string>();
+					nil ? array.erase(_key) : array.set(_key, _value);
+				}
+			};
+
+			array_type["getkeys"] = [](const array& array, const sol::this_state s)
+			{
+				std::vector<sol::lua_value> keys;
+
+				const auto keys_ = array.get_keys();
+				for (const auto& key : keys_)
+				{
+					keys.push_back(convert(s, key));
+				}
+				
+				return keys;
 			};
 
 			auto entity_type = state.new_usertype<entity>("entity");

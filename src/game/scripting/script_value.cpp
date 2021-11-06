@@ -1,6 +1,7 @@
 #include <stdinc.hpp>
 #include "script_value.hpp"
 #include "entity.hpp"
+#include "array.hpp"
 
 namespace scripting
 {
@@ -70,6 +71,15 @@ namespace scripting
 	}
 
 	script_value::script_value(const entity& value)
+	{
+		game::VariableValue variable{};
+		variable.type = game::SCRIPT_OBJECT;
+		variable.u.pointerValue = value.get_entity_id();
+
+		this->value_ = variable;
+	}
+
+	script_value::script_value(const array& value)
 	{
 		game::VariableValue variable{};
 		variable.type = game::SCRIPT_OBJECT;
@@ -202,6 +212,30 @@ namespace scripting
 	entity script_value::get() const
 	{
 		return entity(this->get_raw().u.pointerValue);
+	}
+
+    /***************************************************************
+	 * Array
+	 **************************************************************/
+
+	template <>
+	bool script_value::is<array>() const
+	{
+		if (this->get_raw().type != game::SCRIPT_OBJECT)
+		{
+			return false;
+		}
+
+		const auto id = this->get_raw().u.uintValue;
+		const auto type = game::scr_VarGlob->objectVariableValue[id].w.type & 0x7F;
+
+		return type == game::SCRIPT_ARRAY;
+	}
+
+	template <>
+	array script_value::get() const
+	{
+		return array(this->get_raw().u.uintValue);
 	}
 
 	/***************************************************************

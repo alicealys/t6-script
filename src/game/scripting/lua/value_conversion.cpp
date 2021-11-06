@@ -1,5 +1,6 @@
 #include <stdinc.hpp>
 #include "value_conversion.hpp"
+#include "../array.hpp"
 
 namespace scripting::lua
 {
@@ -35,6 +36,11 @@ namespace scripting::lua
 			return {value.as<std::string>()};
 		}
 
+		if (value.is<array>())
+		{
+			return {value.as<array>()};
+		}
+
 		if (value.is<entity>())
 		{
 			return {value.as<entity>()};
@@ -64,7 +70,12 @@ namespace scripting::lua
 		{
 			return {state, value.as<std::string>()};
 		}
-		
+
+		if (value.is<array>())
+		{
+			return {value.as<array>()};
+		}
+
 		if (value.is<entity>())
 		{
 			return {state, value.as<entity>()};

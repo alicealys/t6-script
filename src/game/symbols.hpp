@@ -31,12 +31,16 @@ namespace game
 	WEAK symbol<void(scriptInstance_t inst)> Scr_ClearOutParams{0x591410, 0x627540};
 
 	WEAK symbol<unsigned int(scriptInstance_t inst)> AllocObject{0x6FB1B0, 0x6FE9D0};
+	WEAK symbol<ObjectVariableValue*(scriptInstance_t inst, unsigned int* index)> AllocVariable{0x8F3150, 0x8F1EB0};
 	WEAK symbol<void(scriptInstance_t inst, unsigned int id)> RemoveRefToObject{0x6FB1B0, 0x550DC0};
 	WEAK symbol<void(scriptInstance_t inst, const float* vectorValue)> RemoveRefToVector{0x50C580, 0x432600};
-	WEAK symbol<void(scriptInstance_t inst, VariableValue* value)> AddRefToValue{0x488FA0, 0x4E5060};
-	WEAK symbol<void(scriptInstance_t inst, VariableValue* value)> RemoveRefToValue{0x55E820, 0x42E7D0};
+	WEAK symbol<void(scriptInstance_t inst, const VariableValue* value)> AddRefToValue{0x488FA0, 0x4E5060};
+	WEAK symbol<void(scriptInstance_t inst, const VariableValue* value)> RemoveRefToValue{0x55E820, 0x42E7D0};
+	WEAK symbol<void(scriptInstance_t inst, unsigned int parentId, unsigned int index)> RemoveVariableValue{0x56A820, 0x6CC320};
 
 	WEAK symbol<unsigned int(scriptInstance_t inst, unsigned int parentId, unsigned int id)> FindVariable{0x6EB1B0, 0x5FE180};
+	WEAK symbol<unsigned int(scriptInstance_t inst, unsigned int parentId, unsigned int name)> GetNewVariable{0x5AD920, 0x5C18A0};
+	WEAK symbol<unsigned int(scriptInstance_t inst, unsigned int parentId, unsigned int unsignedValue)> GetNewArrayVariable{0x5D80C0, 0x42C260};
 
 	WEAK symbol<void(unsigned int classnum, int entnum, int offset)> Scr_SetObjectField{0x5B9820, 0x43F2A0};
 	WEAK symbol<VariableValue(scriptInstance_t inst, unsigned int classnum, int entnum, int clientNum, int offset)> GetEntityFieldValue{0x693130, 0x6DD0E0};
@@ -55,6 +59,7 @@ namespace game
 	WEAK symbol<const char*(scriptInstance_t inst, int index)> Scr_GetString{0x67C6A0, 0x488110};
 	WEAK symbol<void(scriptInstance_t inst, int index, float* out)> Scr_GetVector{0x4CBCC0, 0x4BB100};
 	WEAK symbol<const float*(scriptInstance_t inst, const float* v)> Scr_AllocVector{0x510D30, 0x44D8C0};
+	WEAK symbol<unsigned int(scriptInstance_t inst, unsigned int threadId)> Scr_GetSelf{0x4682C0, 0x6C4E60};
 
 	WEAK symbol<void(int clientNum, int type, const char* command)> SV_GameSendServerCommand{0x45D7D0, 0x40D450};
 

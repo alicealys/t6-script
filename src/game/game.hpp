@@ -56,8 +56,6 @@ namespace game
 		T* t6zm_;
 	};
 
-	void init();
-
 	scr_entref_t Scr_GetEntityIdRef(unsigned int entId);
 }
 
