@@ -13,7 +13,7 @@ namespace scripting
 			return;
 		}
 
-		const auto value = game::scr_VarGlob->childVariableValue[this->id_ + 0xC800 * (this->parent_id_ & 1)];
+		const auto value = game::scr_VarGlob->childVariableValue[this->id_];
 		game::VariableValue variable;
 		variable.u = value.u.u;
 		variable.type = (game::scriptType_e)value.type;
@@ -30,7 +30,7 @@ namespace scripting
 
 		const auto value = _value.get_raw();
 
-		const auto variable = &game::scr_VarGlob->childVariableValue[this->id_ + 0xC800 * (this->parent_id_ & 1)];
+		const auto variable = &game::scr_VarGlob->childVariableValue[this->id_];
 		game::VariableValue variable_{};
 		variable_.type = variable->type;
 		variable_.u = variable->u.u;
@@ -66,7 +66,7 @@ namespace scripting
 		this->id_ = make_array();
 		this->add();
 	}
-	
+
 	array::array(std::vector<script_value> values)
 	{
 		this->id_ = make_array();
@@ -146,12 +146,11 @@ namespace scripting
 	{
 		std::vector<script_value> result;
 
-		const auto offset = 0xC800 * (this->id_ & 1);
 		auto current = game::scr_VarGlob->objectVariableChildren[this->id_].firstChild;
 
-		for (auto i = offset + current; current; i = offset + current)
+		while (current)
 		{
-			const auto var = game::scr_VarGlob->childVariableValue[i];
+			const auto var = game::scr_VarGlob->childVariableValue[current];
 
 			if (var.type == game::SCRIPT_NONE)
 			{
@@ -159,7 +158,7 @@ namespace scripting
 				continue;
 			}
 
-			const auto string_value = (unsigned int)((unsigned __int8)var.name_lo + (var.k.keys.name_hi << 8));
+			const auto string_value = (unsigned __int8)var.name_lo + (var.k.keys.name_hi << 8);
 			const auto* str = game::SL_ConvertToString(string_value);
 
 			script_value key;
@@ -227,7 +226,7 @@ namespace scripting
 			return {};
 		}
 
-		const auto value = game::scr_VarGlob->childVariableValue[variable_id + 0xC800 * (this->id_ & 1)];
+		const auto value = game::scr_VarGlob->childVariableValue[variable_id];
 		game::VariableValue variable;
 		variable.u = value.u.u;
 		variable.type = (game::scriptType_e)value.type;
@@ -244,7 +243,7 @@ namespace scripting
 			return {};
 		}
 
-		const auto value = game::scr_VarGlob->childVariableValue[variable_id + 0xC800 * (this->id_ & 1)];
+		const auto value = game::scr_VarGlob->childVariableValue[variable_id];
 		game::VariableValue variable;
 		variable.u = value.u.u;
 		variable.type = (game::scriptType_e)value.type;
@@ -279,7 +278,7 @@ namespace scripting
 			return;
 		}
 
-		const auto variable = &game::scr_VarGlob->childVariableValue[variable_id + 0xC800 * (this->id_ & 1)];
+		const auto variable = &game::scr_VarGlob->childVariableValue[variable_id];
 		game::VariableValue variable_{};
 		variable_.type = variable->type;
 		variable_.u = variable->u.u;
@@ -301,7 +300,7 @@ namespace scripting
 			return;
 		}
 
-		const auto variable = &game::scr_VarGlob->childVariableValue[variable_id + 0xC800 * (this->id_ & 1)];
+		const auto variable = &game::scr_VarGlob->childVariableValue[variable_id];
 		game::VariableValue variable_{};
 		variable_.type = variable->type;
 		variable_.u = variable->u.u;
