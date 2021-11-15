@@ -64,7 +64,7 @@ namespace game
 	WEAK symbol<void(int clientNum, int type, const char* command)> SV_GameSendServerCommand{0x45D7D0, 0x40D450};
 
 	WEAK symbol<void*(jmp_buf* Buf, int Value)> longjmp{0xA78870, 0xA71AD0};
-	WEAK symbol<int(jmp_buf* Buf)> _setjmp{0xA77B10, 0xA70D70};
+	WEAK symbol<int(jmp_buf* Buf, int a6, int a7, int a9)> _setjmp{0xA77B10, 0xA70D70};
 
 	// Variables
 
