@@ -31,12 +31,9 @@ namespace scripting
 		const auto value = _value.get_raw();
 
 		const auto variable = &game::scr_VarGlob->childVariableValue[this->id_];
-		game::VariableValue variable_{};
-		variable_.type = variable->type;
-		variable_.u = variable->u.u;
-
+		
 		game::AddRefToValue(game::SCRIPTINSTANCE_SERVER, &value);
-		game::RemoveRefToValue(game::SCRIPTINSTANCE_SERVER, &variable_);
+		game::RemoveRefToValue(game::SCRIPTINSTANCE_SERVER, variable->type, variable->u.u);
 
 		variable->type = value.type;
 		variable->u.u = value.u;
@@ -138,7 +135,7 @@ namespace scripting
 			value.u.uintValue = this->id_;
 			value.type = game::SCRIPT_OBJECT;
 
-			game::RemoveRefToValue(game::SCRIPTINSTANCE_SERVER, &value);
+			game::RemoveRefToValue(game::SCRIPTINSTANCE_SERVER, value.type, value.u);
 		}
 	}
 
@@ -279,12 +276,9 @@ namespace scripting
 		}
 
 		const auto variable = &game::scr_VarGlob->childVariableValue[variable_id];
-		game::VariableValue variable_{};
-		variable_.type = variable->type;
-		variable_.u = variable->u.u;
-
+		
 		game::AddRefToValue(game::SCRIPTINSTANCE_SERVER, &value);
-		game::RemoveRefToValue(game::SCRIPTINSTANCE_SERVER, &variable_);
+		game::RemoveRefToValue(game::SCRIPTINSTANCE_SERVER, variable->type, variable->u.u);
 
 		variable->type = value.type;
 		variable->u.u = value.u;
@@ -301,12 +295,9 @@ namespace scripting
 		}
 
 		const auto variable = &game::scr_VarGlob->childVariableValue[variable_id];
-		game::VariableValue variable_{};
-		variable_.type = variable->type;
-		variable_.u = variable->u.u;
 
 		game::AddRefToValue(game::SCRIPTINSTANCE_SERVER, &value);
-		game::RemoveRefToValue(game::SCRIPTINSTANCE_SERVER, &variable_);
+		game::RemoveRefToValue(game::SCRIPTINSTANCE_SERVER, variable->type, variable->u.u);
 
 		variable->type = value.type;
 		variable->u.u = value.u;
